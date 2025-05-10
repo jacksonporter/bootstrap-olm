@@ -1,0 +1,49 @@
+# Jekyll configuration
+lsi: false
+safe: true
+source: "./"
+incremental: false
+highlighter: rouge
+gist:
+  noscript: false
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
+remote_theme: pages-themes/cayman@v0.2.0
+plugins:
+  - jekyll-remote-theme
+title: [bootstrap-olm]
+description: [Bootstrap OLM]
+exclude:
+  - .github/
+  - bin/
+  - charts/
+  - internal/
+  - pkg/
+  - scripts/
+  - vendor/
+  - _config.yml
+  - .after.custom.envrc
+  - .before.custom.envrc
+  - .containerignore
+  - .editorconfig
+  - .envrc
+  - .gitignore
+  - .go-version
+  - .markdownlint.json
+  - .pre-commit-config.yaml
+  - .ruby-version
+  - Brewfile
+  - Containerfile
+  - Gemfile
+  - Gemfile.lock
+  - go.mod
+  - go.sum
+  - LICENSE
+  - Makefile
+
+repository: jacksonporter/bootstrap-olm
+author: Jackson Porter
+github: [metadata]
+url: "https://bootstrap-olm.jacksonporterjp.com"
+# baseurl: "/"bundle exec jekyll serve --baseurl=""
