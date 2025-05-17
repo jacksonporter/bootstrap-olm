@@ -12,8 +12,11 @@ kramdown:
 remote_theme: pages-themes/cayman@v0.2.0
 plugins:
   - jekyll-remote-theme
-title: [bootstrap-olm]
-description: [Bootstrap OLM]
+title: [Bootstrap OLM]
+description:
+  [
+    Bootstrap OLM - A tool to bootstrap the Operator Lifecycle Manager (OLM) in a non-OpenShift cluster.
+  ]
 exclude:
   - .github/
   - bin/
@@ -43,7 +46,7 @@ exclude:
   - Makefile
 
 repository: jacksonporter/bootstrap-olm
-author: Jackson Porter
+author: Jackson Porter (JP)
 github: [metadata]
 url: "https://bootstrap-olm.jacksonporterjp.com"
 # baseurl: "/"bundle exec jekyll serve --baseurl=""

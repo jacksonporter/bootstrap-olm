@@ -1,0 +1,55 @@
+name: Audit
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  audit:
+    name: Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - id: get-python-version
+        name: Get Python version
+        run: echo "PYTHON_VERSION=$(cat .python-version)" >> $GITHUB_OUTPUT
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ steps.get-python-version.outputs.PYTHON_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: .go-version
+          cache: true
+
+      - name: Install Go dependencies
+        run: go mod download
+
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+
+      # - name: Build container image
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./Containerfile
+      #     load: true
+      #     tags: local/bootstrap-olm:test
+      #     cache-from: type=gha
+      #     cache-to: type=gha,mode=max
+
+      # - name: Run container tests
+      #   run: |
+      #     docker run --rm local/bootstrap-olm:test --help
+
+      - uses: pre-commit/action@v3.0.1
+      - uses: pre-commit-ci/lite-action@v1.1.0
+        if: always()

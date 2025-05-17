@@ -13,7 +13,6 @@ repos:
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
       - id: check-symlinks
-      - id: check-toml
       - id: check-vcs-permalinks
       - id: check-xml
       - id: check-yaml
@@ -34,37 +33,89 @@ repos:
       - id: name-tests-test
       - id: no-commit-to-branch
       - id: pretty-format-json
+        exclude: ^\.vscode/
       - id: requirements-txt-fixer
       - id: sort-simple-yaml
       - id: trailing-whitespace
 
-  - repo: https://github.com/dnephin/pre-commit-golang
-    rev: v0.5.1
-    hooks:
-      - id: go-fmt
-      - id: go-vet
-      # - id: go-lint
-      - id: go-imports
-      - id: go-cyclo
-        args: [-over=15]
-      - id: validate-toml
-      - id: no-go-testing
-      - id: golangci-lint
-      - id: go-critic
-      - id: go-unit-tests
-      - id: go-build
-      - id: go-mod-tidy
-
-  - repo: https://github.com/hadolint/hadolint
-    rev: v2.12.0
-    hooks:
-      - id: hadolint
-        files: '.*Containerfile.*'
-
   - repo: local
     hooks:
+      - id: go-fmt
+        name: go fmt
+        entry: go fmt
+        files: \.go$
+        language: system
+        pass_filenames: false
+
+      - id: go-vet
+        name: go vet
+        entry: go vet
+        files: \.go$
+        language: system
+        pass_filenames: false
+
+      - id: go-imports
+        name: goimports
+        entry: goimports
+        files: \.go$
+        language: system
+
+      - id: go-cyclo
+        name: gocyclo
+        entry: gocyclo -over 15
+        files: \.go$
+        language: system
+
+      - id: golangci-lint
+        name: golangci-lint
+        entry: golangci-lint run
+        files: \.go$
+        language: system
+        pass_filenames: false
+
+      - id: go-critic
+        name: gocritic
+        entry: gocritic check
+        files: \.go$
+        language: system
+        pass_filenames: false
+
+      - id: go-unit-tests
+        name: go test
+        entry: go test -v ./...
+        files: \.go$
+        language: system
+        pass_filenames: false
+
+      - id: go-build
+        name: go build
+        entry: go build -v ./...
+        files: \.go$
+        language: system
+        pass_filenames: false
+
+      - id: go-mod-tidy
+        name: go mod tidy
+        entry: go mod tidy
+        files: go\.mod$
+        language: system
+        pass_filenames: false
+
+      - id: hadolint
+        name: hadolint
+        entry: hadolint
+        files: '.*Containerfile.*'
+        language: system
+
       - id: shellcheck
         name: shellcheck
         entry: shellcheck
         files: ^.*\.(ba|z|fish|k|mksh|posh|sh)$
         language: system
+
+      - id: markdownlint
+        name: markdownlint
+        entry: markdownlint --config .markdownlint.json
+        files: \.md$
+        language: system
+        types: [markdown]

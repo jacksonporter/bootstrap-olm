@@ -1,3 +1,6 @@
+tap "goreleaser/tap"
+brew "goreleaser/tap/goreleaser"
 brew "goenv"
 brew "podman"
 brew "docker-compose"
+brew "markdownlint-cli"

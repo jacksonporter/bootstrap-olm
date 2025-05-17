@@ -1,0 +1,71 @@
+# Git
+.git
+.gitignore
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+go.work.sum
+
+# Development
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation
+README.md
+LICENSE
+*.md
+doc/
+_site/
+
+# Build artifacts
+bootstrap-olm
+bin/
+dist/
+
+# Environment and config
+.env
+.envrc
+.before.custom.envrc
+.after.custom.envrc
+.ruby-version
+.ruby-gemset
+.rvmrc
+
+# CI/CD
+.github/
+.gitlab/
+.pre-commit-config.yaml
+.golangci.yaml
+.goreleaser.yml
+
+# Ruby (for Jekyll)
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/spec/
+/test/
+/tmp/
+/.yardoc/
+/_yardoc/
+/doc/
+/rdoc/
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+
+# Misc
+.editorconfig
+.markdownlint.json
+.DS_Store

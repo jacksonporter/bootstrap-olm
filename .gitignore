@@ -89,3 +89,5 @@ build-iPhoneSimulator/
 
 # Github pages (jekyll) site
 _site/
+# Added by goreleaser init:
+dist/
