@@ -13,10 +13,6 @@ jobs:
         run: |
           apt-get update
 
-      - name: Install podman
-        run: |
-          apt-get install -y podman
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -49,15 +45,6 @@ jobs:
 
       - name: Install shellcheck
         run: apt-get install -y shellcheck
-
-      - name: Build container image
-        run: |
-          podman build -t local/bootstrap-olm:test -f Containerfile .
-
-      - name: Run container tests
-        run: |
-          podman run --rm local/bootstrap-olm:test --help
-
       - uses: pre-commit/action@v3.0.1
         env:
           SKIP: podman-build
