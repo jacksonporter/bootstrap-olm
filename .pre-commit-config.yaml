@@ -33,6 +33,7 @@ repos:
       - id: name-tests-test
       - id: no-commit-to-branch
       - id: pretty-format-json
+        args: [--autofix]
         exclude: ^\.vscode/
       - id: requirements-txt-fixer
       - id: sort-simple-yaml
@@ -119,3 +120,10 @@ repos:
         files: \.md$
         language: system
         types: [markdown]
+
+      - id: podman-build
+        name: podman build
+        entry: python3 scripts/build-containers.py
+        files: ^(Containerfile|\.containerignore|\.go-version|.*\.go|go\.mod|go\.sum)$
+        language: system
+        pass_filenames: false
