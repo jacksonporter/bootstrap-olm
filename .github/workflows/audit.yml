@@ -57,8 +57,13 @@ jobs:
             [ -n "$tool" ] && go install "$tool"
           done <gotools.txt
 
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v8
+        with:
+          version: v2.1
+
       - uses: pre-commit/action@v3.0.1
         env:
-          SKIP: podman-build
+          SKIP: podman-build,golangci-lint
       - uses: pre-commit-ci/lite-action@v1.1.0
         if: always()

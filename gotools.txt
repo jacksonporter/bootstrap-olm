@@ -1,2 +1,3 @@
 golang.org/x/tools/cmd/goimports@latest
 github.com/fzipp/gocyclo/cmd/gocyclo@latest
+github.com/go-critic/go-critic/cmd/go-critic@latest
