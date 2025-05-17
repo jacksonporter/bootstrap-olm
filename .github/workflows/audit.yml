@@ -46,6 +46,12 @@ jobs:
       - name: Install shellcheck
         run: sudo apt-get install -y shellcheck
 
+      - name: Install go tools
+        run: |
+          while IFS= read -r tool; do
+            [ -n "$tool" ] && go install "$tool"
+          done <gotools.txt
+
       - uses: pre-commit/action@v3.0.1
         env:
           SKIP: podman-build
