@@ -27,6 +27,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install node dependencies
+        run: npm install
 
       - name: Set up Go
         uses: actions/setup-go@v5

@@ -116,9 +116,9 @@ repos:
 
       - id: markdownlint
         name: markdownlint
-        entry: markdownlint --config .markdownlint.json
+        entry: npx markdownlint --config .markdownlint.json
         files: \.md$
-        language: system
+        language: node
         types: [markdown]
 
       - id: podman-build

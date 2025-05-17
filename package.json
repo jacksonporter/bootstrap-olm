@@ -1,0 +1,13 @@
+{
+  "author": "",
+  "description": "CLI tools for the project",
+  "devDependencies": {
+    "markdownlint-cli": "^0.37.0"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "name": "bootstrap-olm",
+  "private": true,
+  "scripts": {},
+  "version": "0.0.0"
+}
