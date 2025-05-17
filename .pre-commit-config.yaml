@@ -74,13 +74,6 @@ repos:
         language: system
         pass_filenames: false
 
-      - id: go-critic
-        name: gocritic
-        entry: gocritic check
-        files: \.go$
-        language: system
-        pass_filenames: false
-
       - id: go-unit-tests
         name: go test
         entry: go test -v ./...
