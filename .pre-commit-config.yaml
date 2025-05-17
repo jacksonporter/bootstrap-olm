@@ -34,7 +34,7 @@ repos:
       - id: no-commit-to-branch
       - id: pretty-format-json
         args: [--autofix]
-        exclude: ^\.vscode/
+        exclude: ^(\.vscode/|package-lock\.json)$
       - id: requirements-txt-fixer
       - id: sort-simple-yaml
       - id: trailing-whitespace
