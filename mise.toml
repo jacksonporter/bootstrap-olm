@@ -24,7 +24,7 @@ run = "pre_commit install --install-hooks"
 
 [tasks.build]
 description = "Build the project"
-run = "go build -o bootstrap-olm main.go"
+run = "yarn node ./scripts/tasks/build.ts"
 
 [tasks.build-containers]
 description = "Build the containers for this project"

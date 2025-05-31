@@ -417,3 +417,5 @@ dist/
 
 # custom
 package-lock.json
+bootstrap-olm
+bootstrap-olm.exe

@@ -48,6 +48,13 @@ repos:
         language: system
         pass_filenames: false
 
+      - id: prettier-fmt
+        name: prettier
+        entry: yarn prettier --write .
+        files: \.go$
+        language: system
+        pass_filenames: false
+
       - id: go-vet
         name: go vet
         entry: go vet
