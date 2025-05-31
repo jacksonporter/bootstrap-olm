@@ -1,0 +1,10 @@
+[debug]
+type = "debug"
+tag = "local/bootstrap-olm:debug"
+target = "debug"
+containerfile = "Containerfile"
+
+[production]
+type = "production"
+tag = "local/bootstrap-olm:prod"
+containerfile = "Containerfile"

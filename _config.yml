@@ -15,7 +15,7 @@ plugins:
 title: [Bootstrap OLM]
 description:
   [
-    Bootstrap OLM - A tool to bootstrap the Operator Lifecycle Manager (OLM) in a non-OpenShift cluster.
+    Bootstrap OLM - A tool to bootstrap the Operator Lifecycle Manager (OLM) in a non-OpenShift cluster.,
   ]
 exclude:
   - .github/

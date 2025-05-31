@@ -16,31 +16,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - id: get-python-version
-        name: Get Python version
-        run: echo "PYTHON_VERSION=$(cat .python-version)" >> $GITHUB_OUTPUT
-
-      - uses: actions/setup-python@v4
+      - uses: jdx/mise-action@v2
         with:
-          python-version: ${{ steps.get-python-version.outputs.PYTHON_VERSION }}
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .node-version
-          cache: "npm"
-          cache-dependency-path: package-lock.json
-
-      - name: Install node dependencies
-        run: npm install
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: .go-version
-          cache: true
-
-      - name: Install Go dependencies
-        run: go mod download
+          experimental: true # [default: false] enable experimental features
 
       - name: Install hadolint
         run: |
@@ -51,11 +29,8 @@ jobs:
       - name: Install shellcheck
         run: sudo apt-get install -y shellcheck
 
-      - name: Install go tools
-        run: |
-          while IFS= read -r tool; do
-            [ -n "$tool" ] && go install "$tool"
-          done <gotools.txt
+      - name: Install project dependencies
+        run: mise run 'install'
 
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v8

@@ -98,7 +98,7 @@ repos:
       - id: hadolint
         name: hadolint
         entry: hadolint
-        files: '.*Containerfile.*'
+        files: ".*Containerfile.*"
         language: system
 
       - id: shellcheck
@@ -116,7 +116,7 @@ repos:
 
       - id: podman-build
         name: podman build
-        entry: python3 scripts/build-containers.py
+        entry: yarn node scripts/tasks/buildContainers.ts all
         files: ^(Containerfile|\.containerignore|\.go-version|.*\.go|go\.mod|go\.sum)$
         language: system
         pass_filenames: false

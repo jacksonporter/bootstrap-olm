@@ -8,3 +8,7 @@ in a non-OpenShift cluster.
 ## Getting Started
 
 _This page and project are under active development, please come back later!_
+
+## Development Environment
+
+Learn more about setting up your development environment [by clicking here](./docs/setting_up_development_enviroment.md).
