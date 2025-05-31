@@ -16,6 +16,9 @@ jobs:
         with:
           experimental: true # [default: false] enable experimental features
 
+      - name: Install project dependencies
+        run: mise run 'install'
+
       - name: Update apt cache
         run: |
           sudo apt-get update
@@ -28,9 +31,6 @@ jobs:
 
       - name: Install shellcheck
         run: sudo apt-get install -y shellcheck
-
-      - name: Install project dependencies
-        run: mise run 'install'
 
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v8

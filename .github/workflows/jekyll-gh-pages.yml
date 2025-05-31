@@ -31,6 +31,8 @@ jobs:
       - uses: jdx/mise-action@v2
         with:
           experimental: true # [default: false] enable experimental features
+      - name: Install project dependencies
+        run: mise run 'install'
       - name: Setup Pages
         id: setup-pages
         uses: actions/configure-pages@v5

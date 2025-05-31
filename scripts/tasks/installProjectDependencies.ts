@@ -36,6 +36,10 @@ function installPythonPipDependencies(): void {
   execSync("python -m pip install -r requirements.txt");
 }
 
+function installBundlerRubyGems(): void {
+  console.log("Installing Bundler gems");
+  execSync("bundle install");
+}
 
 export function installProjectDependencies(): void {
   console.log("Installing dependencies");
@@ -43,6 +47,7 @@ export function installProjectDependencies(): void {
   installGoProjectDependencies();
   installGoTools();
   installPythonPipDependencies();
+  installBundlerRubyGems();
 }
 
 function main(): void {
