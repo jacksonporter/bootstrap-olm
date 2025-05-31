@@ -9,16 +9,16 @@ jobs:
     name: Audit
     runs-on: ubuntu-latest
     steps:
-      - name: Update apt cache
-        run: |
-          sudo apt-get update
-
       - name: Checkout code
         uses: actions/checkout@v4
 
       - uses: jdx/mise-action@v2
         with:
           experimental: true # [default: false] enable experimental features
+
+      - name: Update apt cache
+        run: |
+          sudo apt-get update
 
       - name: Install hadolint
         run: |

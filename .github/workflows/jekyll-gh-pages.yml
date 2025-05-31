@@ -28,11 +28,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: jdx/mise-action@v2
         with:
-          bundler-cache: true
-          cache-version: 0
+          experimental: true # [default: false] enable experimental features
       - name: Setup Pages
         id: setup-pages
         uses: actions/configure-pages@v5
