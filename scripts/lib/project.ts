@@ -1,3 +1,6 @@
+import { execSync } from "child_process";
+import fs from "fs";
+
 export function getProjectRoot(): string {
   try {
     const { execSync } = require("child_process");
@@ -22,10 +25,6 @@ export function getProjectRoot(): string {
     return process.cwd();
   }
 }
-
-import { execSync } from "child_process";
-import fs from "fs";
-import { getProjectRoot } from "../lib/project.ts";
 
 function installGoProjectDependencies(): void {
   console.log("Installing Go dependencies");
