@@ -4,23 +4,6 @@ import { execSync } from "child_process";
 import fs from "fs";
 import { getProjectRoot } from "../lib/project.ts";
 
-
-function runCorepackEnable(): void {
-  console.log("Running corepack enable");
-  execSync("corepack enable", { stdio: "inherit" });
-}
-
-function runYarnInstall(): void {
-  console.log("Running yarn install");
-  execSync("yarn install", { stdio: "inherit" });
-}
-
-
-function installYarnDependencies(): void {
-  console.log("Installing Yarn dependencies");
-  execSync("yarn install");
-}
-
 function installGoProjectDependencies(): void {
   console.log("Installing Go dependencies");
   execSync("go mod tidy");
@@ -57,9 +40,6 @@ function installPythonPipDependencies(): void {
 export function installProjectDependencies(): void {
   console.log("Installing dependencies");
 
-  runCorepackEnable();
-  runYarnInstall();
-  installYarnDependencies();
   installGoProjectDependencies();
   installGoTools();
   installPythonPipDependencies();
