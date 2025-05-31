@@ -18,9 +18,13 @@ jobs:
 
       - name: Setup Node/Yarn
         run: |
-          corepack enable
-          corepack prepare --activate
-          yarn install
+          echo "Enabling corepack"
+          mise exec -- corepack enable
+          echo "Preparing corepack"
+          mise exec -- corepack prepare --activate
+          echo "Installing dependencies"
+          mise exec -- yarn install
+          echo "Dependencies installed"
 
       - name: Install project dependencies
         run: mise run 'install'
@@ -73,9 +77,13 @@ jobs:
 
       - name: Setup Node/Yarn
         run: |
-          corepack enable
-          corepack prepare --activate
-          yarn install
+          echo "Enabling corepack"
+          mise exec -- corepack enable
+          echo "Preparing corepack"
+          mise exec -- corepack prepare --activate
+          echo "Installing dependencies"
+          mise exec -- yarn install
+          echo "Dependencies installed"
 
       - name: Install project dependencies
         run: mise run 'install'

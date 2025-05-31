@@ -8,60 +8,60 @@ ruby = "3.4.4"
 _.python.venv = { path = ".venv", create = true } # create the venv if it doesn't exist
 
 [hooks]
-enter = "yarn node ./scripts/hooks/enter.ts"
+enter = "mise exec -- yarn node ./scripts/hooks/enter.ts"
 
 [[watch_files]]
 patterns = ["*.go", "*.ts"]
-run = "yarn node ./scripts/tasks/format.ts"
+run = "mise exec -- yarn node ./scripts/tasks/format.ts"
 
 [tasks.install]
 description = "Install the project dependencies"
-run = "yarn node ./scripts/tasks/installProjectDependencies.ts"
+run = "mise exec -- yarn node ./scripts/tasks/installProjectDependencies.ts"
 
 [tasks.install-pre-commit-hook]
 description = "Install the pre-commit hook"
-run = "pre_commit install --install-hooks"
+run = "mise exec -- pre_commit install --install-hooks"
 
 [tasks.build]
 description = "Build the project"
-run = "yarn node ./scripts/tasks/build.ts"
+run = "mise exec -- yarn node ./scripts/tasks/build.ts"
 
 [tasks.build-containers]
 description = "Build the containers for this project"
-run = "yarn node ./scripts/tasks/buildContainers.ts all"
+run = "mise exec -- yarn node ./scripts/tasks/buildContainers.ts all"
 
 [tasks.build-debug-container]
 description = "Build the debug container for this project"
-run = "yarn node ./scripts/tasks/buildContainers.ts debug"
+run = "mise exec -- yarn node ./scripts/tasks/buildContainers.ts debug"
 
 [tasks.build-production-container]
 description = "Build the production container for this project"
-run = "yarn node ./scripts/tasks/buildContainers.ts production"
+run = "mise exec -- yarn node ./scripts/tasks/buildContainers.ts production"
 
 [tasks.format]
 description = "Format the code"
-run = "yarn node ./scripts/tasks/format.ts"
+run = "mise exec -- yarn node ./scripts/tasks/format.ts"
 
 [tasks.test]
 description = "Run the tests"
-run = "go test ./... -v"
+run = "mise exec -- go test ./... -v"
 
 [tasks.clean]
 description = "Clean the project"
-run = "go clean && rm -f bootstrap-olm"
+run = "mise exec -- go clean && rm -f bootstrap-olm"
 
 [tasks.audit]
 description = "Audit the project"
-run = "yarn node ./scripts/tasks/audit.ts"
+run = "mise exec -- yarn node ./scripts/tasks/audit.ts"
 
 [tasks.run]
 description = "Run the project"
-run = "go run main.go"
+run = "mise exec -- go run main.go"
 
 [tasks.run-debug-container]
 description = "Run the debug container"
-run = "mise run build-debug-container && podman run --rm -it localhost/bootstrap-olm:debug-latest"
+run = "mise run build-debug-container && mise exec -- podman run --rm -it localhost/bootstrap-olm:debug-latest"
 
 [tasks.run-production-container]
 description = "Run the production container"
-run = "mise run build-production-container && podman run --rm -it localhost/bootstrap-olm:prod-latest"
+run = "mise run build-production-container && mise exec -- podman run --rm -it localhost/bootstrap-olm:prod-latest"

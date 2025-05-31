@@ -34,17 +34,12 @@ jobs:
           experimental: true # [default: false] enable experimental features
       - name: Setup Node/Yarn
         run: |
-          if command -v yarn; then
-            echo "Uninstalling yarn"
-            npm uninstall -g yarn
-          fi
-          echo "Current yarn: $(which yarn)"
           echo "Enabling corepack"
-          corepack enable
+          mise exec -- corepack enable
           echo "Preparing corepack"
-          corepack prepare --activate
+          mise exec -- corepack prepare --activate
           echo "Installing dependencies"
-          yarn install
+          mise exec -- yarn install
           echo "Dependencies installed"
       - name: Install project dependencies
         run: mise run 'install'
