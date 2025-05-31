@@ -1,16 +1,11 @@
 {
   "overrides": [
     {
-      "files": [
-        "*.tmpl",
-        "*.gohtml"
-      ],
+      "files": ["*.tmpl", "*.gohtml"],
       "options": {
         "parser": "go-template"
       }
     }
   ],
-  "plugins": [
-    "prettier-plugin-go-template"
-  ]
+  "plugins": ["prettier-plugin-go-template"]
 }

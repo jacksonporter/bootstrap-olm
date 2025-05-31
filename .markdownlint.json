@@ -28,9 +28,7 @@
   "MD031": true,
   "MD032": true,
   "MD033": {
-    "allowed_elements": [
-      "kbd"
-    ]
+    "allowed_elements": ["kbd"]
   },
   "MD036": false,
   "MD040": true,
