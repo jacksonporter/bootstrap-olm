@@ -413,4 +413,5 @@ _site/
 # Added by goreleaser init:
 dist/
 
-#
+# custom
+package-lock.json

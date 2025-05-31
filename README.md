@@ -5,6 +5,8 @@
 A simple way to bootstrap (install) OLM (Operator Lifecycle Manager)
 in a non-OpenShift cluster.
 
+This is a Go (Golang) project, fitting right in with Kubernetes itself and related tooling.
+
 ## Getting Started
 
 _This page and project are under active development, please come back later!_
