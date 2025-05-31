@@ -16,15 +16,14 @@ jobs:
         with:
           experimental: true # [default: false] enable experimental features
 
-      - name: Install project dependencies
-        run: mise run 'install'
-
       - name: Setup Node/Yarn
         run: |
           corepack enable
           corepack prepare --activate
           yarn install
 
+      - name: Install project dependencies
+        run: mise run 'install'
       - name: Update apt cache
         run: |
           sudo apt-get update
@@ -72,14 +71,14 @@ jobs:
         with:
           experimental: true # [default: false] enable experimental features
 
-      - name: Install project dependencies
-        run: mise run 'install'
-
       - name: Setup Node/Yarn
         run: |
           corepack enable
           corepack prepare --activate
           yarn install
+
+      - name: Install project dependencies
+        run: mise run 'install'
 
       - name: Build containers
         run: mise run 'build-containers'
