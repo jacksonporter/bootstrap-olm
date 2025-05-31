@@ -16,6 +16,16 @@ jobs:
         with:
           experimental: true # [default: false] enable experimental features
 
+      - name: Setup Node/Yarn
+        run: |
+          echo "Enabling corepack"
+          mise exec -- corepack enable
+          echo "Preparing corepack"
+          mise exec -- corepack prepare --activate
+          echo "Installing dependencies"
+          mise exec -- yarn install
+          echo "Dependencies installed"
+
       - name: Install project dependencies
         run: mise run 'install'
 
@@ -44,3 +54,45 @@ jobs:
 
       - uses: pre-commit-ci/lite-action@v1.1.0
         if: always()
+
+  build-containers:
+    name: Build containers
+    strategy:
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
+        include:
+          - platform: linux/amd64
+            runner-label: ubuntu-24.04
+          - platform: linux/arm64
+            runner-label: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner-label }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+        with:
+          experimental: true # [default: false] enable experimental features
+
+      - name: Setup Node/Yarn
+        run: |
+          echo "Enabling corepack"
+          mise exec -- corepack enable
+          echo "Preparing corepack"
+          mise exec -- corepack prepare --activate
+          echo "Installing dependencies"
+          mise exec -- yarn install
+          echo "Dependencies installed"
+
+      - name: Install project dependencies
+        run: mise run 'install'
+
+      - name: Update apt cache
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman
+
+      - name: Build containers
+        run: mise run 'build-containers'

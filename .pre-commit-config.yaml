@@ -32,9 +32,6 @@ repos:
       - id: mixed-line-ending
       - id: name-tests-test
       - id: no-commit-to-branch
-      - id: pretty-format-json
-        args: [--autofix]
-        exclude: ^\.vscode/.*$|^package-lock\.json$
       - id: requirements-txt-fixer
       - id: sort-simple-yaml
       - id: trailing-whitespace

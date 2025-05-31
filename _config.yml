@@ -19,9 +19,13 @@ description:
   ]
 exclude:
   - .github/
-  - bin/
+  - .mypy_cache/
+  - .venv/
+  - .vscode/
+  - .yarn/
   - charts/
   - internal/
+  - node_modules/
   - pkg/
   - scripts/
   - vendor/
