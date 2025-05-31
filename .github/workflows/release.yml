@@ -93,5 +93,10 @@ jobs:
         with:
           experimental: true # [default: false] enable experimental features
 
+      - name: Install project dependencies
+        env:
+          ENABLED_PACKAGE_MANAGERS: "yarn"
+        run: mise run 'install'
+
       - name: test build
         run: docker build -f Dockerfile.windows -t bootstrap-olm:debug --build-arg GO_VERSION=$(mise current go) .

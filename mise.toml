@@ -17,7 +17,7 @@ run = "mise exec -- yarn node ./scripts/tasks/format.ts"
 
 [tasks.install]
 description = "Install the project dependencies"
-run = "mise exec -- yarn node ./scripts/tasks/installProjectDependencies.ts"
+run = "mise exec -- node ./scripts/tasks/installProjectDependencies.ts"
 
 [tasks.install-pre-commit-hook]
 description = "Install the pre-commit hook"

@@ -26,13 +26,24 @@ export function getProjectRoot(): string {
   }
 }
 
+function installYarnDependencies(): void {
+  if (process.env.SKIP_YARN_INSTALL) {
+    console.log("Skipping Yarn dependencies installation");
+    return;
+  }
+  console.log("Installing Yarn dependencies");
+  execSync("mise exec -- corepack enable");
+  execSync("mise exec -- corepack prepare --activate");
+  execSync("mise exec -- yarn install");
+}
+
 function installGoProjectDependencies(): void {
   if (process.env.SKIP_GO_DEPS) {
     console.log("Skipping Go dependencies installation");
     return;
   }
   console.log("Installing Go dependencies");
-  execSync("go mod tidy");
+  execSync("mise exec -- go mod tidy");
 }
 
 function installGoTools(): void {
@@ -56,7 +67,7 @@ function installGoTools(): void {
 
   for (const tool of tools) {
     console.log(`Installing ${tool}`);
-    execSync(`go install ${tool}`, { stdio: "inherit" });
+    execSync(`mise exec -- go install ${tool}`, { stdio: "inherit" });
   }
 }
 
@@ -66,8 +77,8 @@ function installPythonPipDependencies(): void {
     return;
   }
   console.log("Installing Python pip dependencies");
-  execSync("python -m pip install --upgrade pip");
-  execSync("python -m pip install -r requirements.txt");
+  execSync("mise exec -- python -m pip install --upgrade pip");
+  execSync("mise exec -- python -m pip install -r requirements.txt");
 }
 
 function installBundlerRubyGems(): void {
@@ -76,14 +87,61 @@ function installBundlerRubyGems(): void {
     return;
   }
   console.log("Installing Bundler gems");
-  execSync("bundle install");
+  execSync("mise exec -- bundle install");
+}
+
+const packageManagerMap = {
+  yarn: installYarnDependencies,
+  "go-mod": installGoProjectDependencies,
+  "go-tools": installGoTools,
+  "python-pip": installPythonPipDependencies,
+  "bundler-gems": installBundlerRubyGems,
+};
+
+function getEnabledPackageManagers(): string[] {
+  const defaultManagers = ["yarn", "go-mod", "go-tools", "python-pip", "bundler-gems"];
+  const enabledManagers = process.env.ENABLED_PACKAGE_MANAGERS
+    ? process.env.ENABLED_PACKAGE_MANAGERS.split(",")
+    : defaultManagers;
+
+  // Check for any invalid package managers
+  const invalidManagers = enabledManagers.filter(manager => !packageManagerMap[manager]);
+  if (invalidManagers.length > 0) {
+    throw new Error(`Invalid package managers in ENABLED_PACKAGE_MANAGERS: ${invalidManagers.join(", ")}`);
+  }
+
+  return enabledManagers;
+}
+
+function getPackageManagersToSkip(): string[] {
+  const skipManagers = process.env.SKIP_PACKAGE_MANAGERS
+    ? process.env.SKIP_PACKAGE_MANAGERS.split(",")
+    : [];
+
+  // Warn about any package managers that don't exist in packageManagerMap
+  skipManagers.forEach(manager => {
+    if (!packageManagerMap[manager]) {
+      console.warn(`Warning: Unknown package manager "${manager}" in SKIP_PACKAGE_MANAGERS`);
+    }
+  });
+
+  return skipManagers;
 }
 
 export function installProjectDependencies(): void {
   console.log("Installing dependencies");
 
-  installGoProjectDependencies();
-  installGoTools();
-  installPythonPipDependencies();
-  installBundlerRubyGems();
+  for (const packageManager of getEnabledPackageManagers()) {
+    if (getPackageManagersToSkip().includes(packageManager)) {
+      console.log(`Skipping ${packageManager} dependencies installation`);
+      continue;
+    }
+
+    if (!packageManagerMap[packageManager]) {
+      console.error(`Unknown package manager: ${packageManager}`);
+      process.exit(1);
+    }
+
+    packageManagerMap[packageManager]();
+  }
 }
