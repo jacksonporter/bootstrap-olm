@@ -27,11 +27,19 @@ export function getProjectRoot(): string {
 }
 
 function installGoProjectDependencies(): void {
+  if (process.env.SKIP_GO_DEPS) {
+    console.log("Skipping Go dependencies installation");
+    return;
+  }
   console.log("Installing Go dependencies");
   execSync("go mod tidy");
 }
 
 function installGoTools(): void {
+  if (process.env.SKIP_GO_TOOLS) {
+    console.log("Skipping Go tools installation");
+    return;
+  }
   console.log("Installing Go tools");
   const toolsPath = `${getProjectRoot()}/gotools.txt`;
 
@@ -53,12 +61,20 @@ function installGoTools(): void {
 }
 
 function installPythonPipDependencies(): void {
+  if (process.env.SKIP_PIP_INSTALL) {
+    console.log("Skipping Python pip dependencies installation");
+    return;
+  }
   console.log("Installing Python pip dependencies");
   execSync("python -m pip install --upgrade pip");
   execSync("python -m pip install -r requirements.txt");
 }
 
 function installBundlerRubyGems(): void {
+  if (process.env.SKIP_BUNDLE_INSTALL) {
+    console.log("Skipping Bundler gems installation");
+    return;
+  }
   console.log("Installing Bundler gems");
   execSync("bundle install");
 }
