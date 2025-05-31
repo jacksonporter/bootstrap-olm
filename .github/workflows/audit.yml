@@ -19,6 +19,12 @@ jobs:
       - name: Install project dependencies
         run: mise run 'install'
 
+      - name: Setup Node/Yarn
+        run: |
+          corepack enable
+          corepack prepare --activate
+          yarn install
+
       - name: Update apt cache
         run: |
           sudo apt-get update
@@ -61,6 +67,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+        with:
+          experimental: true # [default: false] enable experimental features
+
+      - name: Install project dependencies
+        run: mise run 'install'
+
+      - name: Setup Node/Yarn
+        run: |
+          corepack enable
+          corepack prepare --activate
+          yarn install
 
       - name: Build containers
         run: mise run 'build-containers'
