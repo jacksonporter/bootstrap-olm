@@ -4,7 +4,7 @@
 # Build stage
 # =============================================================================
 ARG GO_VERSION
-FROM --platform=$BUILDPLATFORM public.ecr.aws/docker/library/golang:${GO_VERSION}-windowsservercore AS builder
+FROM public.ecr.aws/docker/library/golang:${GO_VERSION}-windowsservercore AS builder
 ARG GO_VERSION
 
 # Set working directory
