@@ -248,7 +248,9 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
+
+# Override: Include our scripts/lib directory
+!scripts/lib/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
