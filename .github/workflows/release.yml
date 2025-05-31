@@ -93,18 +93,5 @@ jobs:
         with:
           experimental: true # [default: false] enable experimental features
 
-      - name: Setup Node/Yarn
-        run: |
-          echo "Enabling corepack"
-          mise exec -- corepack enable
-          echo "Preparing corepack"
-          mise exec -- corepack prepare --activate
-          echo "Installing dependencies"
-          mise exec -- yarn install
-          echo "Dependencies installed"
-
-      - name: Install project dependencies
-        run: mise run 'install'That
-
       - name: test build
         run: docker build -f Dockerfile.windows -t bootstrap-olm:debug --build-arg GO_VERSION=$(mise current go) .
