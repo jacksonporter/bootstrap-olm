@@ -8,7 +8,7 @@ ruby = "latest"
 _.python.venv = { path = ".venv", create = true } # create the venv if it doesn't exist
 
 [hooks]
-enter = "corepack enable && yarn node ./scripts/hooks/enter.ts"
+enter = "corepack enable && corepack prepare --activate && yarn node ./scripts/hooks/enter.ts"
 
 [[watch_files]]
 patterns = ["*.go", "*.ts"]
@@ -16,7 +16,7 @@ run = "yarn node ./scripts/tasks/format.ts"
 
 [tasks.install]
 description = "Install the project dependencies"
-run = "corepack enable && yarn node ./scripts/tasks/installProjectDependencies.ts"
+run = "corepack enable && corepack prepare --activate && yarn node ./scripts/tasks/installProjectDependencies.ts"
 
 [tasks.install-pre-commit-hook]
 description = "Install the pre-commit hook"
