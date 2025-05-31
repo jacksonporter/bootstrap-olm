@@ -35,8 +35,10 @@ jobs:
       - name: Setup Node/Yarn
         run: |
           if command -v yarn; then
+            echo "Uninstalling yarn"
             npm uninstall -g yarn
           fi
+          echo "Current yarn: $(which yarn)"
           echo "Enabling corepack"
           corepack enable
           echo "Preparing corepack"
