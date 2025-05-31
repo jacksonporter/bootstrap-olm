@@ -89,15 +89,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: test build
-        run: docker build --platform windows/amd64 -f Dockerfile.windows -t bootstrap-olm:debug .
+      - uses: jdx/mise-action@v2
+        with:
+          experimental: true # [default: false] enable experimental features
 
-  test-windows-arm64:
-    name: Test Windows ARM64
-    runs-on: windows-11-arm
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Setup Node/Yarn
+        run: |
+          echo "Enabling corepack"
+          mise exec -- corepack enable
+          echo "Preparing corepack"
+          mise exec -- corepack prepare --activate
+          echo "Installing dependencies"
+          mise exec -- yarn install
+          echo "Dependencies installed"
+
+      - name: Install project dependencies
+        run: mise run 'install'That
 
       - name: test build
-        run: docker build --platform windows/arm64 -f Dockerfile.windows -t bootstrap-olm:debug .
+        run: docker build -f Dockerfile.windows -t bootstrap-olm:debug --build-arg GO_VERSION=$(mise current go) .
