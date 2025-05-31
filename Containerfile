@@ -1,23 +1,27 @@
-# syntax=docker/dockerfile:1
+# syntax=docker/dockerfile:1.4
 
 # =============================================================================
 # Build stage
 # =============================================================================
 ARG GO_VERSION
-FROM golang:${GO_VERSION}-alpine AS builder
+FROM --platform=$BUILDPLATFORM public.ecr.aws/docker/library/golang:${GO_VERSION}-alpine AS builder
 ARG GO_VERSION
 
-# hadolint ignore=DL3018
-RUN apk add --no-cache git
+# Install build dependencies
+RUN apk add --no-cache git make tzdata
 
-WORKDIR /app
+# Set working directory
+WORKDIR /build
 
+# Copy go mod files
 COPY go.mod go.sum ./
 RUN go mod download
 
+# Copy source code
 COPY . .
 
-RUN CGO_ENABLED=0 go build -o bootstrap-olm .
+# Build the application
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bootstrap-olm .
 
 # =============================================================================
 # Debug stage
@@ -40,12 +44,22 @@ RUN KUBECTL_VERSION=$(curl -Ls https://dl.k8s.io/release/stable.txt) && \
     install -m 0755 kubectl /usr/local/bin/kubectl && \
     rm kubectl
 
-COPY --from=builder /app/bootstrap-olm /usr/local/bin/bootstrap-olm
+COPY --from=builder /build/bootstrap-olm /usr/local/bin/bootstrap-olm
 ENTRYPOINT ["/usr/local/bin/bootstrap-olm"]
 
 # =============================================================================
 # Production stage
 # =============================================================================
-FROM gcr.io/distroless/static:nonroot
-COPY --from=builder /app/bootstrap-olm /
+FROM scratch
+
+# Copy SSL certificates from alpine
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+# Copy timezone data from alpine
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
+
+# Copy the binary from builder
+COPY --from=builder /build/bootstrap-olm /bootstrap-olm
+
+# Set the entrypoint
 ENTRYPOINT ["/bootstrap-olm"]

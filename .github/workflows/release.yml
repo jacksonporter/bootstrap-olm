@@ -1,0 +1,103 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - jp/test-release
+    # tags:
+    #   - 'v*'
+
+jobs:
+
+  # release-to-github:
+  #   name: Release
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - uses: jdx/mise-action@v2
+  #       with:
+  #         experimental: true # [default: false] enable experimental features
+
+  #     - name: Setup Node/Yarn
+  #       run: |
+  #         echo "Enabling corepack"
+  #         mise exec -- corepack enable
+  #         echo "Preparing corepack"
+  #         mise exec -- corepack prepare --activate
+  #         echo "Installing dependencies"
+  #         mise exec -- yarn install
+  #         echo "Dependencies installed"
+
+  #     - name: Install project dependencies
+  #       run: mise run 'install'
+
+  #     - name: Run GoReleaser
+  #       uses: goreleaser/goreleaser-action@v6
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # build-containers:
+  #   name: Build containers
+  #   strategy:
+  #     matrix:
+  #       platform:
+  #         - linux/amd64
+  #         - linux/arm64
+  #       include:
+  #         - platform: linux/amd64
+  #           runner-label: ubuntu-24.04
+  #         - platform: linux/arm64
+  #           runner-label: ubuntu-24.04-arm
+  #   runs-on: ${{ matrix.runner-label }}
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - uses: jdx/mise-action@v2
+  #       with:
+  #         experimental: true # [default: false] enable experimental features
+
+  #     - name: Setup Node/Yarn
+  #       run: |
+  #         echo "Enabling corepack"
+  #         mise exec -- corepack enable
+  #         echo "Preparing corepack"
+  #         mise exec -- corepack prepare --activate
+  #         echo "Installing dependencies"
+  #         mise exec -- yarn install
+  #         echo "Dependencies installed"
+
+  #     - name: Install project dependencies
+  #       run: mise run 'install'
+
+  #     - name: Update apt cache
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get install -y podman
+
+  #     - name: Build containers
+  #       run: mise run 'build-containers'
+
+  # # create-combined-manifests:
+
+  test-windows-amd64:
+    name: Test Windows AMD64
+    runs-on: windows-2025
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: test build
+        run: docker build --platform windows/amd64 -f Dockerfile.windows -t bootstrap-olm:debug .
+
+  test-windows-arm64:
+    name: Test Windows ARM64
+    runs-on: windows-11-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: test build
+        run: docker build --platform windows/arm64 -f Dockerfile.windows -t bootstrap-olm:debug .
