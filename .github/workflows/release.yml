@@ -8,15 +8,14 @@ on:
     #   - 'v*'
 
 jobs:
-
-
   build-containers:
     permissions:
       contents: read
       packages: write
       id-token: write
     uses: jacksonporter/build-containers-action/.github/workflows/reusable-build-containers.yml@jp/v1dev
-    secrets: inherit
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # release-to-github:
   #   name: Release
