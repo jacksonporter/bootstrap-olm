@@ -11,7 +11,7 @@ jobs:
   build-containers:
     permissions:
       contents: read
-      id-token: write
+      packages: write
     uses: jacksonporter/build-containers-action/.github/workflows/reusable-build-containers.yml@jp/v1dev
     secrets: inherit
 
