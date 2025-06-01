@@ -2,22 +2,14 @@ name: Release
 
 on:
   push:
-    branches:
-      - jp/test-release
+    # branches:
+    #   - jp/test-release
     # tags:
     #   - 'v*'
+    tags:
+      - 'jptest*'
 
 jobs:
-
-
-
-
-
-
-
-
-
-
   build-containers:
     permissions:
       contents: read
