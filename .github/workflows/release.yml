@@ -9,6 +9,9 @@ on:
 
 jobs:
 
+  build-containers:
+    uses: jacksonporter/build-container-action/.github/workflows/reusable-build-containers.yml@jp/v1dev
+
   # release-to-github:
   #   name: Release
   #   runs-on: ubuntu-latest
@@ -82,21 +85,21 @@ jobs:
 
   # # create-combined-manifests:
 
-  test-windows-amd64:
-    name: Test Windows AMD64
-    runs-on: windows-2025
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # test-windows-amd64:
+  #   name: Test Windows AMD64
+  #   runs-on: windows-2025
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - uses: jdx/mise-action@v2
-        with:
-          experimental: true # [default: false] enable experimental features
+  #     - uses: jdx/mise-action@v2
+  #       with:
+  #         experimental: true # [default: false] enable experimental features
 
-      - name: Install project dependencies
-        env:
-          ENABLED_PACKAGE_MANAGERS: "yarn"
-        run: mise run 'install'
+  #     - name: Install project dependencies
+  #       env:
+  #         ENABLED_PACKAGE_MANAGERS: "yarn"
+  #       run: mise run 'install'
 
-      - name: test build
-        run: docker build -f Dockerfile.windows -t bootstrap-olm:debug --build-arg GO_VERSION=$(mise current go) .
+  #     - name: test build
+  #       run: docker build -f Dockerfile.windows -t bootstrap-olm:debug --build-arg GO_VERSION=$(mise current go) .
