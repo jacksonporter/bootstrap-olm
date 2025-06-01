@@ -10,7 +10,7 @@ on:
 jobs:
 
   build-containers:
-    uses: jacksonporter/build-container-action/.github/workflows/reusable-build-containers.yml@jp/v1dev
+    uses: jacksonporter/build-containers-action/.github/workflows/reusable-build-containers.yml@jp/v1dev
 
   # release-to-github:
   #   name: Release
