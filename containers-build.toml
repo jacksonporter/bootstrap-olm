@@ -3,6 +3,7 @@
 containerfilePath = "{{GIT_PROJECT_ROOT}}/Containerfile"
 contextPath = "{{GIT_PROJECT_ROOT}}"
 selectedBuildArgs = ["GO_VERSION"]
+selectedRepositories = ["ghcr-jacksonporter-bootstrap-olm"]
 
 # Default build args
 buildArgs.GO_VERSION.default = "1.23.4"
@@ -10,9 +11,20 @@ buildArgs.GO_VERSION.cmd = "mise current go"
 buildArgs.GO_VERSION.env_var = "GO_VERSION"
 buildArgs.GO_VERSION.orderPrecedence = ["cmd", "env_var", "default"]
 
+# Default tag templates
+platformTagTemplates = ["{{CONTAINER_NAME}}-{{ARCH}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}", "{{env.GITHUB_REF_NAME}}-{{CONTAINER_NAME}}-{{ARCH}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}"]
+manifestTagTemplates = ["{{CONTAINER_NAME}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}", "{{env.GITHUB_REF_NAME}}-{{CONTAINER_NAME}}"]
+
 # Default CI settings
 ci.defaultRunnerLabels = ["ubuntu-latest"]
 ci.useBuildkit = false
+
+[repositories.ghcr-jacksonporter-bootstrap-olm]
+type = "standard"
+registry = "ghcr.io"
+repository = "jacksonporter/bootstrap-olm"
+usernameTemplate = "{{env.GITHUB_ACTOR}}"
+passwordTemplate = "{{env.GITHUB_TOKEN}}"
 
 # ##############################################################################
 # Debug container
@@ -20,31 +32,35 @@ ci.useBuildkit = false
 [containers.debug]
 name = "debug"
 
+repositories.ghcr.type = "ghcr"
+repositories.ghcr.registry = "ghcr.io"
+repositories.ghcr.repository = "jacksonporter/bootstrap-olm"
+
 # Container platforms
 
 # linux/amd64 variant
 linuxPlatforms.amd64.platform_slug = "linux/amd64"
 linuxPlatforms.amd64.ci.defaultRunnerLabels = [
-    "ubuntu-24.04",
+  "ubuntu-24.04",
 ] # x86_64 linux runner
 
 # linux/arm64 variant
 linuxPlatforms.arm64.platform_slug = "linux/arm64"
 linuxPlatforms.arm64.ci.defaultRunnerLabels = [
-    "ubuntu-24.04-arm",
+  "ubuntu-24.04-arm",
 ] # arm64 linux runner
 
 # linux/ppc64le variant
 linuxPlatforms.ppc64le.platform_slug = "linux/ppc64le"
 linuxPlatforms.ppc64le.ci.defaultRunnerLabels = [
-    "ubuntu-24.04",
+  "ubuntu-24.04",
 ] # x86_64 linux runner
 linuxPlatforms.ppc64le.ci.useBuildkit = true
 
 # linux/s390x variant
 linuxPlatforms.s390x.platform_slug = "linux/s390x"
 linuxPlatforms.s390x.ci.defaultRunnerLabels = [
-    "ubuntu-24.04",
+  "ubuntu-24.04",
 ] # x86_64 linux runner
 linuxPlatforms.s390x.ci.useBuildkit = true
 
@@ -52,7 +68,7 @@ linuxPlatforms.s390x.ci.useBuildkit = true
 windowsPlatforms.amd64.arch = "amd64"
 windowsPlatforms.amd64.containerfilePath = "{{GIT_PROJECT_ROOT}}/Dockerfile.windows"
 windowsPlatforms.amd64.ci.defaultRunnerLabels = [
-    "windows-2025",
+  "windows-2025",
 ] # x86_64 windows runner
 
 
@@ -62,31 +78,35 @@ windowsPlatforms.amd64.ci.defaultRunnerLabels = [
 [containers.release]
 name = "release"
 
+# Default tag templates
+default.platformTagTemplates = ["{{ARCH}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}"]
+default.manifestTagTemplates = ["{{env.GITHUB_REF_NAME}}-{{env.GITHUB_RUN_NUMBER}}"]
+
 # Container platforms
 
 # linux/amd64 variant
 linuxPlatforms.amd64.platform_slug = "linux/amd64"
 linuxPlatforms.amd64.ci.defaultRunnerLabels = [
-    "ubuntu-24.04",
+  "ubuntu-24.04",
 ] # x86_64 linux runner
 
 # linux/arm64 variant
 linuxPlatforms.arm64.platform_slug = "linux/arm64"
 linuxPlatforms.arm64.ci.defaultRunnerLabels = [
-    "ubuntu-24.04-arm",
+  "ubuntu-24.04-arm",
 ] # arm64 linux runner
 
 # linux/ppc64le variant
 linuxPlatforms.ppc64le.platform_slug = "linux/ppc64le"
 linuxPlatforms.ppc64le.ci.defaultRunnerLabels = [
-    "ubuntu-24.04",
+  "ubuntu-24.04",
 ] # x86_64 linux runner
 linuxPlatforms.ppc64le.ci.useBuildkit = true
 
 # linux/s390x variant
 linuxPlatforms.s390x.platform_slug = "linux/s390x"
 linuxPlatforms.s390x.ci.defaultRunnerLabels = [
-    "ubuntu-24.04",
+  "ubuntu-24.04",
 ] # x86_64 linux runner
 linuxPlatforms.s390x.ci.useBuildkit = true
 
@@ -94,5 +114,5 @@ linuxPlatforms.s390x.ci.useBuildkit = true
 windowsPlatforms.amd64.arch = "amd64"
 windowsPlatforms.amd64.containerfilePath = "{{GIT_PROJECT_ROOT}}/Dockerfile.windows"
 windowsPlatforms.amd64.ci.defaultRunnerLabels = [
-    "windows-2025",
+  "windows-2025",
 ] # x86_64 windows runner
