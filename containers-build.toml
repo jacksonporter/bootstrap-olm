@@ -23,8 +23,8 @@ ci.useBuildkit = false
 type = "standard"
 registry = "ghcr.io"
 repository = "jacksonporter/bootstrap-olm"
-usernameTemplate = "{{env.GITHUB_ACTOR}}"
-passwordTemplate = "{{env.GITHUB_TOKEN}}"
+username = "{{env.GITHUB_ACTOR}}"
+password = "{{env.GITHUB_TOKEN}}"
 
 # ##############################################################################
 # Debug container
@@ -32,9 +32,7 @@ passwordTemplate = "{{env.GITHUB_TOKEN}}"
 [containers.debug]
 name = "debug"
 
-repositories.ghcr.type = "ghcr"
-repositories.ghcr.registry = "ghcr.io"
-repositories.ghcr.repository = "jacksonporter/bootstrap-olm"
+default.target = "debug"
 
 # Container platforms
 
