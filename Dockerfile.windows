@@ -8,7 +8,7 @@ FROM golang:${GO_VERSION}-windowsservercore AS builder
 ARG GO_VERSION
 
 # Set working directory
-WORKDIR C:\build
+WORKDIR /build
 
 # Copy go mod files
 COPY go.mod go.sum ./
@@ -18,7 +18,7 @@ RUN go mod download
 COPY . .
 
 # Build the application for Windows
-RUN CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -installsuffix cgo -o bootstrap-olm.exe .
+RUN $env:CGO_ENABLED=0; $env:GOOS='windows'; $env:GOARCH='amd64'; go build -buildvcs=false -a -installsuffix cgo -o bootstrap-olm.exe .
 
 # =============================================================================
 # Debug stage
@@ -26,18 +26,18 @@ RUN CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -installsuffix cgo -o bo
 FROM mcr.microsoft.com/windows/nanoserver:ltsc2025 AS debug
 
 # Copy the binary from builder
-COPY --from=builder C:\build\bootstrap-olm.exe C:\bootstrap-olm.exe
+COPY --from=builder /build/bootstrap-olm.exe C:/bootstrap-olm.exe
 
 # Set the entrypoint
 ENTRYPOINT ["C:\\bootstrap-olm.exe"]
 
 # =============================================================================
-# Production stage
+# Release stage
 # =============================================================================
 FROM mcr.microsoft.com/windows/nanoserver:ltsc2025
 
 # Copy the binary from builder
-COPY --from=builder C:\build\bootstrap-olm.exe C:\bootstrap-olm.exe
+COPY --from=builder /build/bootstrap-olm.exe C:/bootstrap-olm.exe
 
 # Set the entrypoint
 ENTRYPOINT ["C:\\bootstrap-olm.exe"]
