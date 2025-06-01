@@ -6,10 +6,8 @@ selectedBuildArgs = ["GO_VERSION"]
 selectedRepositories = ["ghcr-jacksonporter-bootstrap-olm"]
 
 # Default build args
-buildArgs.GO_VERSION.default = "1.23.4"
 buildArgs.GO_VERSION.cmd = "mise current go"
-buildArgs.GO_VERSION.env_var = "GO_VERSION"
-buildArgs.GO_VERSION.orderPrecedence = ["cmd", "env_var", "default"]
+buildArgs.GO_VERSION.orderPrecedence = ["cmd"]
 
 # Default tag templates
 platformTagTemplates = ["{{CONTAINER_NAME}}-{{ARCH}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}", "{{env.GITHUB_REF_NAME}}-{{CONTAINER_NAME}}-{{ARCH}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}"]
