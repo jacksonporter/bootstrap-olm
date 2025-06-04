@@ -84,11 +84,11 @@ class GHCRCleaner {
     return tagsBySha;
   }
 
-  private async deletePackageVersion(pkg: Package, sha: string): Promise<void> {
+  private async deletePackageVersion(pkg: Package, versionId: number): Promise<void> {
     await this.octokit.rest.packages.deletePackageVersionForUser({
       package_name: pkg.name,
       package_type: "container",
-      package_version_id: parseInt(sha),
+      package_version_id: versionId,
       username: this.username,
     });
   }
@@ -115,7 +115,7 @@ class GHCRCleaner {
     }
   }
 
-  private async processTestingTags(pkg: Package, tagsBySha: Map<string, TagInfo>): Promise<void> {
+  private async processTestingTags(pkg: Package, tagsBySha: Map<string, TagInfo>, versions: PackageVersion[]): Promise<void> {
     const testingTags = new Set<string>();
     const nonTestingTags = new Set<string>();
 
@@ -141,7 +141,10 @@ class GHCRCleaner {
         Logger.warning(`Deleting testing tag: ${pkg.name}:${tag}`);
         for (const [sha, info] of tagsBySha) {
           if (info.tags.includes(tag)) {
-            await this.deletePackageVersion(pkg, sha);
+            const version = versions.find(v => v.name === sha);
+            if (version) {
+              await this.deletePackageVersion(pkg, version.id);
+            }
             break;
           }
         }
@@ -149,7 +152,7 @@ class GHCRCleaner {
     }
   }
 
-  private async processRefTags(pkg: Package, tagsBySha: Map<string, TagInfo>): Promise<void> {
+  private async processRefTags(pkg: Package, tagsBySha: Map<string, TagInfo>, versions: PackageVersion[]): Promise<void> {
     const refTags = new Set<string>();
     const nonTestingTags = new Set<string>();
 
@@ -170,7 +173,10 @@ class GHCRCleaner {
         Logger.warning(`Deleting tag for non-existent ref: ${pkg.name}:${tag}`);
         for (const [sha, info] of tagsBySha) {
           if (info.tags.includes(tag)) {
-            await this.deletePackageVersion(pkg, sha);
+            const version = versions.find(v => v.name === sha);
+            if (version) {
+              await this.deletePackageVersion(pkg, version.id);
+            }
             break;
           }
         }
@@ -198,7 +204,7 @@ class GHCRCleaner {
       // Delete remaining untagged versions
       for (const version of untaggedVersions) {
         Logger.warning(`Deleting untagged version in ${pkg.name} (SHA: ${version.name})`);
-        await this.deletePackageVersion(pkg, version.name);
+        await this.deletePackageVersion(pkg, version.id);
       }
     }
   }
@@ -214,8 +220,8 @@ class GHCRCleaner {
       const versions = await this.getPackageVersions(pkg);
       const tagsBySha = this.groupTagsBySha(versions);
 
-      await this.processTestingTags(pkg, tagsBySha);
-      await this.processRefTags(pkg, tagsBySha);
+      await this.processTestingTags(pkg, tagsBySha, versions);
+      await this.processRefTags(pkg, tagsBySha, versions);
       await this.processUntaggedImages(pkg, versions);
     }
 
