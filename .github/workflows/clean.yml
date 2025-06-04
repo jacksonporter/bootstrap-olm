@@ -1,0 +1,43 @@
+name: Clean
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  clean-ghcr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+
+      - run: mise run install
+
+      - name: Clean GHCR tags
+        run: ./scripts/actions/clean-ghcr-tags.ts
+
+  clean-cache:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+
+      - run: mise run install
+
+      - name: Clean cache
+        run: ./scripts/actions/clean-cache.ts

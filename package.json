@@ -1,12 +1,17 @@
 {
-  "devDependencies": {
-    "@types/node": "^22.15.29",
-    "markdownlint-cli": "^0.45.0",
-    "prettier": "^3.5.3",
-    "prettier-plugin-go-template": "^0.0.15",
-    "toml": "^3.0.0"
-  },
   "name": "bootstrap-olm",
-  "packageManager": "yarn@4.9.1",
-  "type": "module"
+  "version": "1.0.0",
+  "description": "Bootstrap OLM",
+  "scripts": {
+    "clean-ghcr": "ts-node scripts/actions/clean-ghcr-tags.ts"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@octokit/rest": "^20.0.2",
+    "@types/node": "^20.11.24",
+    "chalk": "v4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538"
 }

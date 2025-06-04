@@ -3,11 +3,11 @@ name: Release
 on:
   push:
     # branches:
-    #   - jp/test-release
+      - jp-test-release
     # tags:
     #   - 'v*'
-    tags:
-      - 'jptest*'
+    # tags:
+    #   - 'jptest*'
 
 jobs:
 

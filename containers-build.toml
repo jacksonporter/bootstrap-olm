@@ -10,8 +10,15 @@ buildArgs.GO_VERSION.cmd = "mise current go"
 buildArgs.GO_VERSION.orderPrecedence = ["cmd"]
 
 # Default tag templates
-platformTagTemplates = ["{{CONTAINER_NAME}}-{{ARCH}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}", "{{env.GITHUB_REF_NAME}}-{{CONTAINER_NAME}}-{{ARCH}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}"]
-manifestTagTemplates = ["{{CONTAINER_NAME}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}", "{{env.GITHUB_REF_NAME}}-{{CONTAINER_NAME}}"]
+testingTagTemplates = [
+  "testing-{{env.GITHUB_REF_NAME}}-{{CONTAINER_NAME}}-{{PLATFORM}}-{{ARCH}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}",
+]
+platformTagTemplates = [
+  "{{env.GITHUB_REF_NAME}}-{{CONTAINER_NAME}}-{{PLATFORM}}-{{ARCH}}",
+]
+manifestTagTemplates = [
+  "{{env.GITHUB_REF_NAME}}-{{CONTAINER_NAME}}",
+]
 
 # Default CI settings
 ci.defaultRunnerLabels = ["ubuntu-latest"]
@@ -75,8 +82,11 @@ windowsPlatforms.amd64.ci.defaultRunnerLabels = [
 name = "release"
 
 # Default tag templates
-default.platformTagTemplates = ["{{ARCH}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}"]
-default.manifestTagTemplates = ["{{env.GITHUB_REF_NAME}}-{{env.GITHUB_RUN_NUMBER}}"]
+default.testingTagTemplates = [
+  "{{env.GITHUB_REF_NAME}}-{{PLATFORM}}-{{ARCH}}-{{env.GITHUB_RUN_ID}}-{{env.GITHUB_RUN_NUMBER}}",
+]
+default.platformTagTemplates = ["{{env.GITHUB_REF_NAME}}-{{PLATFORM}}-{{ARCH}}"]
+default.manifestTagTemplates = ["{{env.GITHUB_REF_NAME}}"]
 
 # Container platforms
 
