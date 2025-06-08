@@ -54,20 +54,52 @@ class GHCRCleaner {
   }
 
   private async getContainerPackages(): Promise<Package[]> {
-    const { data: packages } = await this.octokit.rest.packages.listPackagesForUser({
-      package_type: "container",
-      username: this.username,
-    });
+    const packages: Package[] = [];
+    let page = 1;
+    let hasMore = true;
+
+    while (hasMore) {
+      const { data: pagePackages } = await this.octokit.rest.packages.listPackagesForUser({
+        package_type: "container",
+        username: this.username,
+        per_page: 100,
+        page,
+      });
+
+      if (pagePackages.length === 0) {
+        hasMore = false;
+      } else {
+        packages.push(...pagePackages);
+        page++;
+      }
+    }
+
     return packages;
   }
 
   private async getPackageVersions(pkg: Package): Promise<PackageVersion[]> {
-    const { data: versions } = await this.octokit.rest.packages.getAllPackageVersionsForPackageOwnedByUser({
-      package_name: pkg.name,
-      package_type: "container",
-      username: this.username,
-    });
-    return versions as PackageVersion[];
+    const versions: PackageVersion[] = [];
+    let page = 1;
+    let hasMore = true;
+
+    while (hasMore) {
+      const { data: pageVersions } = await this.octokit.rest.packages.getAllPackageVersionsForPackageOwnedByUser({
+        package_name: pkg.name,
+        package_type: "container",
+        username: this.username,
+        per_page: 100,
+        page,
+      });
+
+      if (pageVersions.length === 0) {
+        hasMore = false;
+      } else {
+        versions.push(...(pageVersions as PackageVersion[]));
+        page++;
+      }
+    }
+
+    return versions;
   }
 
   private groupTagsBySha(versions: PackageVersion[]): Map<string, TagInfo> {
@@ -85,12 +117,18 @@ class GHCRCleaner {
   }
 
   private async deletePackageVersion(pkg: Package, versionId: number): Promise<void> {
-    await this.octokit.rest.packages.deletePackageVersionForUser({
-      package_name: pkg.name,
-      package_type: "container",
-      package_version_id: versionId,
-      username: this.username,
-    });
+    Logger.info(`Attempting to delete version ${versionId} of package ${pkg.name}`);
+    try {
+      await this.octokit.rest.packages.deletePackageVersionForUser({
+        package_name: pkg.name,
+        package_type: "container",
+        package_version_id: versionId,
+        username: this.username,
+      });
+    } catch (error) {
+      Logger.error(`Failed to delete version ${versionId} of package ${pkg.name}: ${error.message}`);
+      throw error;
+    }
   }
 
   private async checkRefExists(refName: string): Promise<boolean> {

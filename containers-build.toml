@@ -67,12 +67,12 @@ linuxPlatforms.s390x.ci.defaultRunnerLabels = [
 ] # x86_64 linux runner
 linuxPlatforms.s390x.ci.useBuildkit = true
 
-# # windows/amd64 variant
-# windowsPlatforms.amd64.arch = "amd64"
-# windowsPlatforms.amd64.containerfilePath = "{{GIT_PROJECT_ROOT}}/Dockerfile.windows"
-# windowsPlatforms.amd64.ci.defaultRunnerLabels = [
-#   "windows-2025",
-# ] # x86_64 windows runner
+# windows/amd64 variant
+windowsPlatforms.amd64.arch = "amd64"
+windowsPlatforms.amd64.containerfilePath = "{{GIT_PROJECT_ROOT}}/Dockerfile.windows"
+windowsPlatforms.amd64.ci.defaultRunnerLabels = [
+  "windows-2025",
+] # x86_64 windows runner
 
 
 # ##############################################################################
@@ -116,9 +116,9 @@ linuxPlatforms.s390x.ci.defaultRunnerLabels = [
 ] # x86_64 linux runner
 linuxPlatforms.s390x.ci.useBuildkit = true
 
-# # windows/amd64 variant
-# windowsPlatforms.amd64.arch = "amd64"
-# windowsPlatforms.amd64.containerfilePath = "{{GIT_PROJECT_ROOT}}/Dockerfile.windows"
-# windowsPlatforms.amd64.ci.defaultRunnerLabels = [
-#   "windows-2025",
-# ] # x86_64 windows runner
+# windows/amd64 variant
+windowsPlatforms.amd64.arch = "amd64"
+windowsPlatforms.amd64.containerfilePath = "{{GIT_PROJECT_ROOT}}/Dockerfile.windows"
+windowsPlatforms.amd64.ci.defaultRunnerLabels = [
+  "windows-2025",
+] # x86_64 windows runner
