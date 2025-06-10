@@ -23,6 +23,7 @@ manifestTagTemplates = [
 # Default CI settings
 ci.defaultRunnerLabels = ["ubuntu-latest"]
 ci.useBuildkit = false
+ci.scanWithTrivy = true
 
 [repositories.ghcr-jacksonporter-bootstrap-olm]
 type = "standard"
